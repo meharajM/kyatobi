@@ -1,5 +1,7 @@
-import 'package:calculator/calculator/calculator_layout.dart';
+
 import 'package:flutter/material.dart';
+
+import 'calculator/calculator_layout.dart';
 
 class App extends StatelessWidget {
   @override
