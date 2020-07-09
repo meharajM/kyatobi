@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+Download the app here: https://github.com/meharajM/kyatobi/blob/master/build/app/outputs/apk/release/app-release.apk
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
