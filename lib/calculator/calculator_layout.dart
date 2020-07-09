@@ -13,18 +13,21 @@ class _CalculatorState extends State<Calculator> {
   var total = 0.0;
   String output = '0';
   final _controller = ScrollController();
+  var arr = [];
 
   calculate(String val) {
+    if (val == '.' && arr.indexOf('.') != -1) {
+      return;
+    }
+
+    if (val == "+" || val == "/" || val == "*" || val == "-") {
+      setState(() {
+        arr = [];
+      });
+    }
     setState(() {
-      // if (output.contains(".")) {
-      //   output = removeLeadingZero(output);
-      // }
       output = output != '0' ? output + val : val;
-      // _controller.animateTo(
-      //   0.0,
-      //   curve: Curves.easeOut,
-      //   duration: const Duration(milliseconds: 300),
-      // );
+      arr.add(val);
       _controller.jumpTo(_controller.position.maxScrollExtent);
     });
   }
@@ -37,8 +40,10 @@ class _CalculatorState extends State<Calculator> {
   }
 
   equate([eq = '0']) {
-    if (output.contains(new RegExp(r'[-+/*]$'))) {
+    if (output.contains(new RegExp(r'[-+/*]$')) ||
+        output.contains(new RegExp(r'.$'))) {
       setState(() {
+        arr.removeLast();
         output = output.substring(0, output.length - 1);
       });
     }
@@ -199,7 +204,7 @@ class _CalculatorState extends State<Calculator> {
                       TableRow(children: [
                         Buttons(
                           '=',
-                          this.calculate,
+                          this.equate,
                           height: 2,
                           color: Colors.redAccent,
                         ),
