@@ -2,7 +2,7 @@
 
 A new Flutter project.
 
-Download the app here: https://github.com/meharajM/kyatobi/blob/master/build/app/outputs/apk/release/app-release.apk
+Download the app here: https://github.com/meharajM/kyatobi/raw/master/build/app/outputs/apk/release/app-release.apk
 
 ## Getting Started
 
