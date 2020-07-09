@@ -13,18 +13,21 @@ class _CalculatorState extends State<Calculator> {
   var total = 0.0;
   String output = '0';
   final _controller = ScrollController();
+  var arr = [];
 
   calculate(String val) {
+    if (val == '.' && arr.indexOf('.') != -1) {
+      return;
+    }
+
+    if (val == "+" || val == "/" || val == "*" || val == "-") {
+      setState(() {
+        arr = [];
+      });
+    }
     setState(() {
-      // if (output.contains(".")) {
-      //   output = removeLeadingZero(output);
-      // }
       output = output != '0' ? output + val : val;
-      // _controller.animateTo(
-      //   0.0,
-      //   curve: Curves.easeOut,
-      //   duration: const Duration(milliseconds: 300),
-      // );
+      arr.add(val);
       _controller.jumpTo(_controller.position.maxScrollExtent);
     });
   }
@@ -37,8 +40,10 @@ class _CalculatorState extends State<Calculator> {
   }
 
   equate([eq = '0']) {
-    if (output.contains(new RegExp(r'[-+/*]$'))) {
+    if (output.contains(new RegExp(r'[-+/*]$')) ||
+        output.contains(new RegExp(r'.$'))) {
       setState(() {
+        arr.removeLast();
         output = output.substring(0, output.length - 1);
       });
     }
@@ -57,8 +62,24 @@ class _CalculatorState extends State<Calculator> {
     });
   }
 
+  //Will use in future
   String removeLeadingZero(String num) {
     return num.replaceFirst('.0', '.');
+  }
+
+  removeFromLeft([out = "0"]) {
+    if (output.length <= 1) {
+      if (output != "0") {
+        setState(() {
+          output = "0";
+        });
+      }
+      return;
+    }
+    var out = output.substring(0, output.length - 1);
+    setState(() {
+      output = out;
+    });
   }
 
   parseDouble([opt = '0']) {
@@ -120,34 +141,103 @@ class _CalculatorState extends State<Calculator> {
             Expanded(
               child: Divider(),
             ),
-            Row(children: [
-              Buttons('7', this.calculate),
-              Buttons('8', this.calculate),
-              Buttons('9', this.calculate),
-              Buttons('/', this.calculate),
-            ]),
-            Row(children: [
-              Buttons('4', this.calculate),
-              Buttons('5', this.calculate),
-              Buttons('6', this.calculate),
-              Buttons('*', this.calculate),
-            ]),
-            Row(children: [
-              Buttons('1', this.calculate),
-              Buttons('2', this.calculate),
-              Buttons('3', this.calculate),
-              Buttons('-', this.calculate),
-            ]),
-            Row(children: [
-              Buttons('.', this.calculate),
-              Buttons('0', this.calculate),
-              Buttons('00', this.calculate),
-              Buttons('+', this.calculate),
-            ]),
-            Row(children: [
-              Buttons('=', this.equate),
-              Buttons('Clear', this.clear),
-            ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  child: Table(
+                    children: [
+                      TableRow(children: [
+                        Buttons('C', this.clear),
+                        Buttons("⌫", this.removeFromLeft),
+                        Buttons('+', this.calculate),
+                      ]),
+                      TableRow(children: [
+                        Buttons('7', this.calculate),
+                        Buttons('8', this.calculate),
+                        Buttons('9', this.calculate),
+                      ]),
+                      TableRow(children: [
+                        Buttons('4', this.calculate),
+                        Buttons('5', this.calculate),
+                        Buttons('6', this.calculate),
+                      ]),
+                      TableRow(children: [
+                        Buttons('1', this.calculate),
+                        Buttons('2', this.calculate),
+                        Buttons('3', this.calculate),
+                      ]),
+                      TableRow(children: [
+                        Buttons('.', this.calculate),
+                        Buttons('0', this.calculate),
+                        Buttons('00', this.calculate),
+                      ]),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.25,
+                  child: Table(
+                    children: [
+                      TableRow(children: [
+                        Buttons(
+                          '*',
+                          this.calculate,
+                          height: 1,
+                        ),
+                      ]),
+                      TableRow(children: [
+                        Buttons(
+                          '-',
+                          this.calculate,
+                          height: 1,
+                        ),
+                      ]),
+                      TableRow(children: [
+                        Buttons(
+                          '/',
+                          this.calculate,
+                          height: 1,
+                        ),
+                      ]),
+                      TableRow(children: [
+                        Buttons(
+                          '=',
+                          this.equate,
+                          height: 2,
+                          color: Colors.redAccent,
+                        ),
+                      ]),
+                    ],
+                  ),
+                )
+              ],
+            )
+            // Row(children: [
+            //
+            //   Buttons('/', this.calculate),
+            // ]),
+            // Row(children: [
+            //   Buttons('4', this.calculate),
+            //   Buttons('5', this.calculate),
+            //   Buttons('6', this.calculate),
+            //   Buttons('*', this.calculate),
+            // ]),
+            // Row(children: [
+
+            //   Buttons('-', this.calculate),
+            // ]),
+            // Row(children: [
+            //   Buttons('.', this.calculate),
+            //   Buttons('0', this.calculate),
+            //   Buttons('00', this.calculate),
+            //
+            // ]),
+            // Row(children: [
+            //   Buttons('=', this.equate),
+            //   Buttons('Clear', this.clear),
+            // ]),
           ],
         ),
       ),
