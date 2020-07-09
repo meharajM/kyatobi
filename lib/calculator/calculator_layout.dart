@@ -214,34 +214,9 @@ class _CalculatorState extends State<Calculator> {
                 )
               ],
             )
-            // Row(children: [
-            //
-            //   Buttons('/', this.calculate),
-            // ]),
-            // Row(children: [
-            //   Buttons('4', this.calculate),
-            //   Buttons('5', this.calculate),
-            //   Buttons('6', this.calculate),
-            //   Buttons('*', this.calculate),
-            // ]),
-            // Row(children: [
-
-            //   Buttons('-', this.calculate),
-            // ]),
-            // Row(children: [
-            //   Buttons('.', this.calculate),
-            //   Buttons('0', this.calculate),
-            //   Buttons('00', this.calculate),
-            //
-            // ]),
-            // Row(children: [
-            //   Buttons('=', this.equate),
-            //   Buttons('Clear', this.clear),
-            // ]),
           ],
         ),
       ),
     );
   }
-  // ···
 }
