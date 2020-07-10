@@ -36,12 +36,14 @@ class _CalculatorState extends State<Calculator> {
     setState(() {
       output = '0';
       total = 0.0;
+      arr = [];
     });
+    print(total);
   }
 
   equate([eq = '0']) {
     if (output.contains(new RegExp(r'[-+/*]$')) ||
-        output.contains(new RegExp(r'.$'))) {
+        output.contains(new RegExp(r'\.$'))) {
       setState(() {
         arr.removeLast();
         output = output.substring(0, output.length - 1);
@@ -57,8 +59,12 @@ class _CalculatorState extends State<Calculator> {
       ttal = res.toDouble();
     }
 
+    setTotal(ttal);
+  }
+
+  setTotal(double ttl) {
     setState(() {
-      total = ttal;
+      total = double.parse(ttl.toStringAsFixed(2));
     });
   }
 
@@ -88,23 +94,20 @@ class _CalculatorState extends State<Calculator> {
   }
 
   gst(String per) {
-    if (total <= 0) {
-      setState(() {
-        total = double.parse(arr.join(''));
-      });
+    if (total <= 0.0) {
+      total = double.parse(arr.join(''));
+      setTotal(total);
     }
     var price;
     if (per.contains('-')) {
-      var amount =
+      var amount = total -
           (total * (100 / (100 + int.parse(per.replaceFirst('-', '')))));
-      price = total + amount;
+      price = total - amount;
     } else {
       var amount = (total * int.parse(per)) / 100;
       price = total + amount;
     }
-    setState(() {
-      total = price;
-    });
+    setTotal(price);
   }
 
   @override
@@ -114,155 +117,166 @@ class _CalculatorState extends State<Calculator> {
       appBar: AppBar(
         title: Text('Calculator'),
       ),
-      body: new Container(
-        child: new Column(
-          children: [
-            Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10.0,
-                  horizontal: 12.0,
-                ),
-                height: 70.0,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  controller: _controller,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          output,
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
+      body: DefaultTextStyle(
+          style: Theme.of(context).textTheme.bodyText2,
+          child: LayoutBuilder(builder:
+              (BuildContext context, BoxConstraints viewportConstraints) {
+            return SingleChildScrollView(
+                child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: viewportConstraints.maxHeight,
+                    ),
+                    child: IntrinsicHeight(
+                      child: new Column(
+                        children: [
+                          Container(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 10.0,
+                                horizontal: 12.0,
+                              ),
+                              height: 70.0,
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                controller: _controller,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        output,
+                                        style: TextStyle(
+                                          fontSize: 40.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              )),
+                          total > 0
+                              ? Container(
+                                  alignment: Alignment.centerRight,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 10.0,
+                                    horizontal: 12.0,
+                                  ),
+                                  child: Text(
+                                    '${total}',
+                                    style: TextStyle(
+                                      fontSize: 40.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                          Expanded(
+                            child: Divider(),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
-                )),
-            total > 0
-                ? Container(
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10.0,
-                      horizontal: 12.0,
-                    ),
-                    child: Text(
-                      '${total}',
-                      style: TextStyle(
-                        fontSize: 40.0,
-                        fontWeight: FontWeight.bold,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: MediaQuery.of(context).size.width,
+                                child: Table(children: [
+                                  TableRow(
+                                      children: slabs
+                                          .map((e) => GstButtons(
+                                                e,
+                                                this.gst,
+                                                color: Colors.black26,
+                                              ))
+                                          .toList()),
+                                  TableRow(
+                                      children: slabs
+                                          .map((e) => GstButtons(
+                                                '-' + e,
+                                                this.gst,
+                                                color: Colors.black26,
+                                              ))
+                                          .toList()),
+                                ]),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.75,
+                                child: Table(
+                                  children: [
+                                    TableRow(children: [
+                                      Buttons('C', this.clear),
+                                      Buttons("⌫", this.removeFromLeft),
+                                      Buttons('/', this.calculate),
+                                    ]),
+                                    TableRow(children: [
+                                      Buttons('7', this.calculate),
+                                      Buttons('8', this.calculate),
+                                      Buttons('9', this.calculate),
+                                    ]),
+                                    TableRow(children: [
+                                      Buttons('4', this.calculate),
+                                      Buttons('5', this.calculate),
+                                      Buttons('6', this.calculate),
+                                    ]),
+                                    TableRow(children: [
+                                      Buttons('1', this.calculate),
+                                      Buttons('2', this.calculate),
+                                      Buttons('3', this.calculate),
+                                    ]),
+                                    TableRow(children: [
+                                      Buttons('.', this.calculate),
+                                      Buttons('0', this.calculate),
+                                      Buttons('00', this.calculate),
+                                    ]),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.25,
+                                child: Table(
+                                  children: [
+                                    TableRow(children: [
+                                      Buttons(
+                                        '*',
+                                        this.calculate,
+                                        height: 1.0,
+                                      ),
+                                    ]),
+                                    TableRow(children: [
+                                      Buttons(
+                                        '-',
+                                        this.calculate,
+                                        height: 1.0,
+                                      ),
+                                    ]),
+                                    TableRow(children: [
+                                      Buttons(
+                                        '+',
+                                        this.calculate,
+                                        height: 2.0,
+                                      ),
+                                    ]),
+                                    TableRow(children: [
+                                      Buttons(
+                                        '=',
+                                        this.equate,
+                                        height: 1.0,
+                                        color: Colors.redAccent,
+                                      ),
+                                    ]),
+                                  ],
+                                ),
+                              )
+                            ],
+                          )
+                        ],
                       ),
-                    ),
-                  )
-                : Container(),
-            Expanded(
-              child: Divider(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Table(children: [
-                    TableRow(
-                        children: slabs
-                            .map((e) => GstButtons(
-                                  e,
-                                  this.gst,
-                                  color: Colors.black26,
-                                ))
-                            .toList()),
-                    TableRow(
-                        children: slabs
-                            .map((e) => GstButtons(
-                                  '-' + e,
-                                  this.gst,
-                                  color: Colors.black26,
-                                ))
-                            .toList()),
-                  ]),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.75,
-                  child: Table(
-                    children: [
-                      TableRow(children: [
-                        Buttons('C', this.clear),
-                        Buttons("⌫", this.removeFromLeft),
-                        Buttons('/', this.calculate),
-                      ]),
-                      TableRow(children: [
-                        Buttons('7', this.calculate),
-                        Buttons('8', this.calculate),
-                        Buttons('9', this.calculate),
-                      ]),
-                      TableRow(children: [
-                        Buttons('4', this.calculate),
-                        Buttons('5', this.calculate),
-                        Buttons('6', this.calculate),
-                      ]),
-                      TableRow(children: [
-                        Buttons('1', this.calculate),
-                        Buttons('2', this.calculate),
-                        Buttons('3', this.calculate),
-                      ]),
-                      TableRow(children: [
-                        Buttons('.', this.calculate),
-                        Buttons('0', this.calculate),
-                        Buttons('00', this.calculate),
-                      ]),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.25,
-                  child: Table(
-                    children: [
-                      TableRow(children: [
-                        Buttons(
-                          '*',
-                          this.calculate,
-                          height: 1.0,
-                        ),
-                      ]),
-                      TableRow(children: [
-                        Buttons(
-                          '-',
-                          this.calculate,
-                          height: 1.0,
-                        ),
-                      ]),
-                      TableRow(children: [
-                        Buttons(
-                          '+',
-                          this.calculate,
-                          height: 2.0,
-                        ),
-                      ]),
-                      TableRow(children: [
-                        Buttons(
-                          '=',
-                          this.equate,
-                          height: 1.0,
-                          color: Colors.redAccent,
-                        ),
-                      ]),
-                    ],
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
+                    )));
+          })),
     );
   }
 }
