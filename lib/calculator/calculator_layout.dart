@@ -54,7 +54,7 @@ class _CalculatorState extends State<Calculator> {
     final evaluator = const ExpressionEvaluator();
     var res = evaluator.eval(expression, {});
     if (res is double) {
-      ttal = double.parse(res.toStringAsFixed(2));
+      ttal = res;
     } else {
       ttal = res.toDouble();
     }
