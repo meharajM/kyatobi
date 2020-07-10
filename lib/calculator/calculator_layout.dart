@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:expressions/expressions.dart';
-import 'dart:math';
 
 import 'calculator_buttons.dart';
 
@@ -10,6 +9,7 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
+  static const slabs = ['3', '5', '12', '18', '28'];
   var total = 0.0;
   String output = '0';
   final _controller = ScrollController();
@@ -87,6 +87,26 @@ class _CalculatorState extends State<Calculator> {
     output = out.toString();
   }
 
+  gst(String per) {
+    if (total <= 0) {
+      setState(() {
+        total = double.parse(arr.join(''));
+      });
+    }
+    var price;
+    if (per.contains('-')) {
+      var amount =
+          (total * (100 / (100 + int.parse(per.replaceFirst('-', '')))));
+      price = total + amount;
+    } else {
+      var amount = (total * int.parse(per)) / 100;
+      price = total + amount;
+    }
+    setState(() {
+      total = price;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -99,10 +119,10 @@ class _CalculatorState extends State<Calculator> {
           children: [
             Container(
                 padding: EdgeInsets.symmetric(
-                  vertical: 24.0,
+                  vertical: 10.0,
                   horizontal: 12.0,
                 ),
-                height: 100.0,
+                height: 70.0,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   controller: _controller,
@@ -114,7 +134,7 @@ class _CalculatorState extends State<Calculator> {
                         Text(
                           output,
                           style: TextStyle(
-                            fontSize: 48.0,
+                            fontSize: 40.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -126,13 +146,13 @@ class _CalculatorState extends State<Calculator> {
                 ? Container(
                     alignment: Alignment.centerRight,
                     padding: EdgeInsets.symmetric(
-                      vertical: 24.0,
+                      vertical: 10.0,
                       horizontal: 12.0,
                     ),
                     child: Text(
                       '${total}',
                       style: TextStyle(
-                        fontSize: 48.0,
+                        fontSize: 40.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -145,13 +165,39 @@ class _CalculatorState extends State<Calculator> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Table(children: [
+                    TableRow(
+                        children: slabs
+                            .map((e) => GstButtons(
+                                  e,
+                                  this.gst,
+                                  color: Colors.black26,
+                                ))
+                            .toList()),
+                    TableRow(
+                        children: slabs
+                            .map((e) => GstButtons(
+                                  '-' + e,
+                                  this.gst,
+                                  color: Colors.black26,
+                                ))
+                            .toList()),
+                  ]),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: Table(
                     children: [
                       TableRow(children: [
                         Buttons('C', this.clear),
                         Buttons("⌫", this.removeFromLeft),
-                        Buttons('+', this.calculate),
+                        Buttons('/', this.calculate),
                       ]),
                       TableRow(children: [
                         Buttons('7', this.calculate),
@@ -184,28 +230,28 @@ class _CalculatorState extends State<Calculator> {
                         Buttons(
                           '*',
                           this.calculate,
-                          height: 1,
+                          height: 1.0,
                         ),
                       ]),
                       TableRow(children: [
                         Buttons(
                           '-',
                           this.calculate,
-                          height: 1,
+                          height: 1.0,
                         ),
                       ]),
                       TableRow(children: [
                         Buttons(
-                          '/',
+                          '+',
                           this.calculate,
-                          height: 1,
+                          height: 2.0,
                         ),
                       ]),
                       TableRow(children: [
                         Buttons(
                           '=',
                           this.equate,
-                          height: 2,
+                          height: 1.0,
                           color: Colors.redAccent,
                         ),
                       ]),
