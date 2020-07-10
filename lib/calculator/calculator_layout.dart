@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expressions/expressions.dart';
+import 'package:kyatobi/contacts/contacts_details.dart';
 
 import 'calculator_buttons.dart';
 
@@ -162,12 +163,28 @@ class _CalculatorState extends State<Calculator> {
                                     vertical: 10.0,
                                     horizontal: 12.0,
                                   ),
-                                  child: Text(
-                                    '${total}',
-                                    style: TextStyle(
-                                      fontSize: 40.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        '${total}',
+                                        style: TextStyle(
+                                          fontSize: 40.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.send),
+                                        color: Theme.of(context).primaryColor,
+                                        tooltip: 'Increase volume by 10',
+                                        onPressed: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(builder: (_) {
+                                            return ContactsDetails();
+                                          }));
+                                        },
+                                      ),
+                                    ],
                                   ),
                                 )
                               : Container(),
