@@ -14,6 +14,7 @@ class MyCard extends StatelessWidget {
   final double height;
   final Uint8List avtar;
   final String initials;
+  Function onTrailingPress;
 
   MyCard(this.title,
       {this.subTitle = null,
@@ -23,17 +24,13 @@ class MyCard extends StatelessWidget {
       this.buttonText = '',
       this.height = 1.0,
       this.avtar,
-      this.initials});
+      this.initials,
+      this.onTrailingPress});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      // leading: FadeInImage(
-      //   placeholder: kTransparentImage,
-      //   image: FileImage(
-      //     File(link),
-      //   ),
-      // ),
+      contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 18),
       leading: this.icon
           ? (this.avtar != null && this.avtar.isNotEmpty)
               ? CircleAvatar(backgroundImage: MemoryImage(this.avtar))
@@ -42,8 +39,17 @@ class MyCard extends StatelessWidget {
                   backgroundColor: Theme.of(context).primaryColor,
                 )
           : null,
-      title: Text(this.title),
+      title: Text(
+        this.title,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      onTap: () => {},
       subtitle: this.subTitle != null ? Text(this.subTitle) : null,
+      trailing: IconButton(
+        icon: Icon(Icons.send),
+        onPressed: onTrailingPress,
+        color: Theme.of(context).primaryColor,
+      ),
     );
   }
 }
