@@ -32,7 +32,9 @@ class MyCard extends StatelessWidget {
       //     File(link),
       //   ),
       // ),
-      leading: this.icon ? Image.memory((this.avtar)) : null,
+      leading: this.icon
+          ? CircleAvatar(backgroundImage: MemoryImage(this.avtar))
+          : null,
       title: Text(this.title),
       subtitle: this.subTitle != null ? Text(this.subTitle) : null,
     );
