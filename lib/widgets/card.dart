@@ -13,6 +13,7 @@ class MyCard extends StatelessWidget {
   final String buttonText;
   final double height;
   final Uint8List avtar;
+  final String initials;
 
   MyCard(this.title,
       {this.subTitle = null,
@@ -21,7 +22,8 @@ class MyCard extends StatelessWidget {
       this.addButton = false,
       this.buttonText = '',
       this.height = 1.0,
-      this.avtar});
+      this.avtar,
+      this.initials});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,12 @@ class MyCard extends StatelessWidget {
       //   ),
       // ),
       leading: this.icon
-          ? CircleAvatar(backgroundImage: MemoryImage(this.avtar))
+          ? (this.avtar != null && this.avtar.isNotEmpty)
+              ? CircleAvatar(backgroundImage: MemoryImage(this.avtar))
+              : CircleAvatar(
+                  child: Text(this.initials),
+                  backgroundColor: Theme.of(context).primaryColor,
+                )
           : null,
       title: Text(this.title),
       subtitle: this.subTitle != null ? Text(this.subTitle) : null,

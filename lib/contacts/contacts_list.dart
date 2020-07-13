@@ -18,6 +18,7 @@ class ContactsList extends StatelessWidget {
                         e.displayName,
                         icon: true,
                         avtar: e.avatar,
+                        initials: e.initials(),
                         subTitle: e.phones.toList()[0].label +
                             ': ' +
                             e.phones.toList()[0].value,
