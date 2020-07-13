@@ -178,10 +178,12 @@ class _CalculatorState extends State<Calculator> {
                                         color: Theme.of(context).primaryColor,
                                         tooltip: 'Increase volume by 10',
                                         onPressed: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(builder: (_) {
-                                            return ContactsDetails();
-                                          }));
+                                          Navigator.pushNamed(
+                                              context, '/second');
+                                          // Navigator.push(context,
+                                          //     MaterialPageRoute(builder: (_) {
+                                          //   return ContactsDetails();
+                                          // }));
                                         },
                                       ),
                                     ],

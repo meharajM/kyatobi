@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:kyatobi/contacts/contacts_details.dart';
 
 import 'calculator/calculator_layout.dart';
 
@@ -8,8 +8,17 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Calculator',
-      home: Calculator(),
-      theme: ThemeData(primarySwatch: Colors.green),
+      // home: Calculator(),
+      theme: ThemeData(
+          primarySwatch: Colors.green,
+          textTheme: TextTheme(
+              bodyText2: TextStyle(color: Theme.of(context).primaryColor))),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Calculator(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        '/second': (context) => ContactsDetails(),
+      },
     );
   }
 }
