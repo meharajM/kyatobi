@@ -120,16 +120,18 @@ class _CalculatorState extends State<Calculator> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              child: Text('Drawer Header'),
-              decoration: BoxDecoration(
-                color: Colors.blue,
+              child: Text(
+                'Drawer Header',
+                style: TextStyle(color: Colors.white),
               ),
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
             ),
             ListTile(
-              title: Text('Item 1'),
+              title: Text('Calculator'),
               onTap: () {
                 // Update the state of the app.
                 // ...
+                Navigator.pop(context);
               },
             ),
             ListTile(
