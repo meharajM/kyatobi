@@ -50,7 +50,7 @@ class MyCard extends StatelessWidget {
       subtitle: this.subTitle != null ? Text(this.subTitle) : null,
       trailing: IconButton(
         icon: Icon(Icons.send),
-        onPressed: () => onTrailingPress(this.data),
+        onPressed: () => onTrailingPress(context, this.data),
         color: Theme.of(context).primaryColor,
       ),
     );

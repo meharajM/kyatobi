@@ -18,6 +18,25 @@ class App extends StatelessWidget {
         '/': (context) => Calculator(),
         // When navigating to the "/second" route, build the SecondScreen widget.
         '/second': (context) => ContactsDetails(),
+        '/tabs': (context) => DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text('Kyatobi'),
+                bottom: TabBar(tabs: [
+                  Tab(
+                    child: Text('Bills'),
+                  ),
+                  Tab(
+                    child: Text('data'),
+                  )
+                ]),
+              ),
+              body: TabBarView(children: [
+                Icon(Icons.directions_car),
+                Icon(Icons.directions_transit),
+              ]),
+            ))
       },
     );
   }

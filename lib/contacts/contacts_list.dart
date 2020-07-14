@@ -20,7 +20,7 @@ class ContactsList extends StatelessWidget {
     await dbs.query();
   }
 
-  send(data) async {
+  send(context, data) async {
     var dbs = DBase();
     var db = await dbs.getdb();
     // print(await db.query("sqlite_master"));
@@ -29,6 +29,7 @@ class ContactsList extends StatelessWidget {
       toMap(data),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+    Navigator.pushNamed(context, '/tabs');
     print(result);
   }
 
