@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -14,6 +15,7 @@ class MyCard extends StatelessWidget {
   final double height;
   final Uint8List avtar;
   final String initials;
+  final Contact data;
   Function onTrailingPress;
 
   MyCard(this.title,
@@ -25,6 +27,7 @@ class MyCard extends StatelessWidget {
       this.height = 1.0,
       this.avtar,
       this.initials,
+      this.data,
       this.onTrailingPress});
 
   @override
@@ -47,7 +50,7 @@ class MyCard extends StatelessWidget {
       subtitle: this.subTitle != null ? Text(this.subTitle) : null,
       trailing: IconButton(
         icon: Icon(Icons.send),
-        onPressed: onTrailingPress,
+        onPressed: () => onTrailingPress(this.data),
         color: Theme.of(context).primaryColor,
       ),
     );
