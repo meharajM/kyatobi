@@ -1,4 +1,6 @@
+
 import 'package:kyatobi/bills/model/bills.dart';
+
 
 Map<String, dynamic> toMap(data) {
   return {
@@ -8,6 +10,7 @@ Map<String, dynamic> toMap(data) {
     'datetime': new DateTime.now().toIso8601String()
   };
 }
+
 
 fromMap(data) {
   return List.generate(data.length, (i) {
@@ -20,3 +23,4 @@ fromMap(data) {
     );
   });
 }
+

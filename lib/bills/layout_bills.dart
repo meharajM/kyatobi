@@ -1,3 +1,4 @@
+
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -5,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:kyatobi/util/db.dart';
 import 'package:kyatobi/util/util.dart';
 
+
 class Bills extends StatefulWidget {
   @override
   BillState createState() => BillState();
 }
 
 class BillState extends State<Bills> {
+
   List bills = [];
   bool loading = true;
 
@@ -58,5 +61,6 @@ class BillState extends State<Bills> {
             : Center(
                 child: Text('No Bills found!'),
               ));
+
   }
 }
