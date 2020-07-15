@@ -94,10 +94,12 @@ class ContactsGenerator extends State<ContactsDetails> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                          'Please Give Access to the contacts to send the bill',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).primaryColor)),
+                        'Please Give Access to the contacts to send the bill',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
                       MaterialButton(
                         onPressed: _askPermissions,
                         child: Text('Get Contacts'),

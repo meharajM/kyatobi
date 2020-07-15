@@ -115,6 +115,34 @@ class _CalculatorState extends State<Calculator> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text(
+                'Drawer Header',
+                style: TextStyle(color: Colors.white),
+              ),
+              decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+            ),
+            ListTile(
+              title: Text('Calculator'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Bills'),
+              onTap: () {
+                Navigator.pushNamed(context, '/tabs');
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text('Calculator'),
       ),

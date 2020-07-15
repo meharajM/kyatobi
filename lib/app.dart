@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kyatobi/bills/layout_bills.dart';
 import 'package:kyatobi/contacts/contacts_details.dart';
 
 import 'calculator/calculator_layout.dart';
@@ -18,6 +19,25 @@ class App extends StatelessWidget {
         '/': (context) => Calculator(),
         // When navigating to the "/second" route, build the SecondScreen widget.
         '/second': (context) => ContactsDetails(),
+        '/tabs': (context) => DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text('Kyatobi'),
+                bottom: TabBar(tabs: [
+                  Tab(
+                    child: Text('Bills'),
+                  ),
+                  Tab(
+                    child: Text('data'),
+                  )
+                ]),
+              ),
+              body: TabBarView(children: [
+                Bills(),
+                Icon(Icons.directions_transit),
+              ]),
+            ))
       },
     );
   }

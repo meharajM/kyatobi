@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -13,6 +14,9 @@ class MyCard extends StatelessWidget {
   final String buttonText;
   final double height;
   final Uint8List avtar;
+  final String initials;
+  final Contact data;
+  Function onTrailingPress;
 
   MyCard(this.title,
       {this.subTitle = null,
@@ -21,22 +25,34 @@ class MyCard extends StatelessWidget {
       this.addButton = false,
       this.buttonText = '',
       this.height = 1.0,
-      this.avtar});
+      this.avtar,
+      this.initials,
+      this.data,
+      this.onTrailingPress});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      // leading: FadeInImage(
-      //   placeholder: kTransparentImage,
-      //   image: FileImage(
-      //     File(link),
-      //   ),
-      // ),
+      contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 18),
       leading: this.icon
-          ? CircleAvatar(backgroundImage: MemoryImage(this.avtar))
+          ? (this.avtar != null && this.avtar.isNotEmpty)
+              ? CircleAvatar(backgroundImage: MemoryImage(this.avtar))
+              : CircleAvatar(
+                  child: Text(this.initials),
+                  backgroundColor: Theme.of(context).primaryColor,
+                )
           : null,
-      title: Text(this.title),
+      title: Text(
+        this.title,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      onTap: () => {},
       subtitle: this.subTitle != null ? Text(this.subTitle) : null,
+      trailing: IconButton(
+        icon: Icon(Icons.send),
+        onPressed: () => onTrailingPress(context, this.data),
+        color: Theme.of(context).primaryColor,
+      ),
     );
   }
 }
