@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kyatobi/bills/layout_bills.dart';
 import 'package:kyatobi/contacts/contacts_details.dart';
 
 import 'calculator/calculator_layout.dart';
@@ -33,7 +34,7 @@ class App extends StatelessWidget {
                 ]),
               ),
               body: TabBarView(children: [
-                Icon(Icons.directions_car),
+                Bills(),
                 Icon(Icons.directions_transit),
               ]),
             ))
