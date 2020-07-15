@@ -49,9 +49,9 @@ class DBase {
     List<Map> result = await db.query('bills');
 
     // print the results
-    result.forEach((row) => print(row));
-    // {_id: 1, name: Bob, age: 23}
-    // {_id: 2, name: Mary, age: 32}
-    // {_id: 3, name: Susan, age: 12}
+
+    //result.forEach((row) => print(row));
+    return result;
+
   }
 }
