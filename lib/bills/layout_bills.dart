@@ -1,11 +1,10 @@
-
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kyatobi/bills/model/bills.dart';
 import 'package:kyatobi/util/db.dart';
 import 'package:kyatobi/util/util.dart';
-
 
 class Bills extends StatefulWidget {
   @override
@@ -13,7 +12,6 @@ class Bills extends StatefulWidget {
 }
 
 class BillState extends State<Bills> {
-
   List bills = [];
   bool loading = true;
 
@@ -26,7 +24,6 @@ class BillState extends State<Bills> {
   _fetchDb() async {
     var dbs = DBase();
     var db = await dbs.getdb();
-    // var db = await dbs.getdb();
     var results = await dbs.query();
     results = fromMap(results);
     setState(() {
@@ -48,7 +45,9 @@ class BillState extends State<Bills> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     title: Text(bills[index].name),
-                    subtitle: Text(bills[index].amount.toString()),
+                    subtitle: Text(bills[index].amount),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    onTap: () => this.showDetails,
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) => Divider(
@@ -61,6 +60,9 @@ class BillState extends State<Bills> {
             : Center(
                 child: Text('No Bills found!'),
               ));
+  }
 
+  showDetails(BillModel bill) {
+    //TODO: navigate to another screen where freezing or partial payment can be done.
   }
 }

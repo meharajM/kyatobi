@@ -29,7 +29,7 @@ class DBase {
         onCreate: (Database db, int version) async {
       // When creating the db, create the table
       await db.execute(
-        "CREATE TABLE bills(id INTEGER PRIMARY KEY, name TEXT,phone TEXT,amount REAL, datetime TEXT)",
+        "CREATE TABLE bills(id INTEGER PRIMARY KEY, name TEXT,phone TEXT,amount TEXT, datetime TEXT)",
       );
     });
   }
@@ -52,6 +52,5 @@ class DBase {
 
     //result.forEach((row) => print(row));
     return result;
-
   }
 }
