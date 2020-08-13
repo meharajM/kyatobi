@@ -1,9 +1,11 @@
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/material.dart';
+import 'package:kyatobi/bills/model/bill_save.dart';
 import 'package:kyatobi/util/db.dart';
 import 'package:kyatobi/util/util.dart';
 import 'package:kyatobi/widgets/card.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:kyatobi/util/globals.dart' as globals;
 
 class ContactsList extends StatelessWidget {
   List contacts;
@@ -23,10 +25,14 @@ class ContactsList extends StatelessWidget {
   send(context, data) async {
     var dbs = DBase();
     var db = await dbs.getdb();
-    // print(await db.query("sqlite_master"));
+    var bill = BillSave(
+      data.displayName,
+      data.phones.toList()[0].value,
+      globals.gTotal.toString(),
+    );
     var result = await db.insert(
       'bills',
-      toMap(data),
+      toMap(bill),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     Navigator.pushNamed(context, '/tabs');

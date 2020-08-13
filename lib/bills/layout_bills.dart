@@ -45,7 +45,7 @@ class BillState extends State<Bills> {
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
                     title: Text(bills[index].name),
-                    subtitle: Text(bills[index].amount.toString(bills[index])),
+                    subtitle: Text(bills[index].amount),
                     trailing: Icon(Icons.arrow_forward_ios),
                     onTap: () => this.showDetails,
                   );

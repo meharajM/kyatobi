@@ -3,6 +3,7 @@ import 'package:expressions/expressions.dart';
 import 'package:kyatobi/contacts/contacts_details.dart';
 
 import 'calculator_buttons.dart';
+import 'package:kyatobi/util/globals.dart' as globals;
 
 class Calculator extends StatefulWidget {
   @override
@@ -206,6 +207,7 @@ class _CalculatorState extends State<Calculator> {
                                         color: Theme.of(context).primaryColor,
                                         tooltip: 'Increase volume by 10',
                                         onPressed: () {
+                                          globals.gTotal = total;
                                           Navigator.pushNamed(
                                               context, '/second');
                                           // Navigator.push(context,
